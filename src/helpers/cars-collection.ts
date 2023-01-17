@@ -40,8 +40,6 @@ class CarsCollection {
             (brand) => brand.id === carModel?.brandId,
         );
 
-        console.log(carModel);
-
         return {
             ...car,
             brand: (carBrand && carBrand.title) ?? 'unknown',
