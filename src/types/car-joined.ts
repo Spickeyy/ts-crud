@@ -3,7 +3,7 @@ type CarJoined = {
     price: number,
     year: number,
     brand: string,
-    model: string
+    model: string,
 };
 
 export default CarJoined;

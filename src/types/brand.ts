@@ -1,6 +1,6 @@
 type Brand = {
     id: string,
-    title: string
+    title: string,
 };
 
 export default Brand;
