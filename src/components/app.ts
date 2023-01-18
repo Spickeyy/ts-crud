@@ -42,8 +42,10 @@ class App {
     container.className = 'container my-5 d-flex flex-column gap-3';
 
     const selectField = new SelectField({
-      // options: this.carsCollection.cars.map(carToOption),
       options: brands.map(brandToOption),
+      onChange: (_, brandId) => {
+        console.log(`Pasikeitė kategorija su id: "${brandId}"`);
+      },
     });
 
     const table = new Table({
