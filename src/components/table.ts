@@ -1,4 +1,4 @@
-import getPropCount from "../helpers/get-prop-count";
+import getPropCount from '../helpers/get-prop-count';
 
 type TableRowData = {
     id: string,
@@ -45,14 +45,20 @@ class Table <T extends TableRowData> {
         const columnsHtmlStr = columnsNames
             .map((name) => `<th>${name}</th>`)
             .join('');
-        this.thead.innerHTML = `<tr>${columnsHtmlStr}</tr>`;
+            this.thead.className = 'bg-dark text-white';
+        this.thead.innerHTML = `
+            <tr class="text-center h4">
+                <th colspan="${columnsNames.length}">${this.props.title}</th>
+            </tr>
+            <tr>${columnsHtmlStr}</tr>
+        `;
     };
 
     public initializeBody = () => {
+        const keys = Object.keys(this.props.columns);
         this.props.rowsData.forEach((rowData) => {
-            const columnsNames = Object.values(rowData);
-            const columnsHtmlStr = columnsNames
-                .map((name) => `<td>${name}</td>`)
+            const columnsHtmlStr = keys
+                .map((key) => `<td>${rowData[key]}</td>`)
                 .join('');
 
             this.tbody.innerHTML += `<tr>${columnsHtmlStr}</tr>`;

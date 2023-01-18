@@ -1,0 +1,19 @@
+type StringifiedObject<Type extends object> = {
+    [key in keyof Type]: String
+};
+
+const stringifyProps = <Type extends object>(object: Type): StringifiedObject<Type> => {
+    const objectLikeArray = Object.entries(object);
+
+    const objectWithPropsStringified = objectLikeArray.reduce<Partial<StringifiedObject<Type>>>((
+        prevObj,
+        [key, value],
+    ) => ({
+        ...prevObj,
+        [key]: String(value),
+    }), {});
+
+    return objectWithPropsStringified as StringifiedObject<Type>;
+};
+
+export default stringifyProps;
