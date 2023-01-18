@@ -8,7 +8,7 @@ class App {
 
   private carsCollection: CarsCollection;
 
-  constructor(selector: string) {
+  public constructor(selector: string) {
     const foundElement = document.querySelector<HTMLElement>(selector);
 
     if (foundElement === null) {
@@ -25,6 +25,7 @@ class App {
       cars,
       models,
   });
+  console.log(this.carsCollection);
   }
 
   public initialize = () => {
