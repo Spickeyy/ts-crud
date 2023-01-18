@@ -1,5 +1,5 @@
 type StringifiedObject<Type extends object> = {
-    [key in keyof Type]: String
+    [key in keyof Type]: string
 };
 
 const stringifyProps = <Type extends object>(object: Type): StringifiedObject<Type> => {

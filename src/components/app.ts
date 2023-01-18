@@ -41,7 +41,7 @@ class App {
         brand: 'Markė',
         year: 'Metai',
         price: 'Kaina',
-        model: 'Modelis',
+        modelId: 'Modelis',
       },
       rowsData: this.carsCollection.all.map(stringifyProps),
   });

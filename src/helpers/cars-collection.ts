@@ -33,7 +33,7 @@ class CarsCollection {
     // TODO: make it PRIVATE
     private joinCar = (car: Car): CarJoined => {
         const carModel = this.models.find(
-            (model) => model.id === car.modelId,
+            (modelId) => modelId.id === car.modelId,
         );
 
         const carBrand = this.brands.find(
@@ -43,7 +43,7 @@ class CarsCollection {
         return {
             ...car,
             brand: (carBrand && carBrand.title) ?? 'unknown',
-            model: (carModel && carModel.title) ?? 'unknown',
+            modelId: (carModel && carModel.title) ?? 'unknown',
           };
     };
 }
