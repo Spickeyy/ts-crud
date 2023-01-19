@@ -44,7 +44,9 @@ class App {
     const selectField = new SelectField({
       options: brands.map(brandToOption),
       onChange: (_, brandId) => {
-        console.log(`Pasikeitė kategorija su id: "${brandId}"`);
+        const newCars = this.carsCollection.getByBrandId(brandId);
+
+        console.table(newCars);
       },
     });
 
