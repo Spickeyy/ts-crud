@@ -26,7 +26,7 @@ const carJoinedToTableRowData = (joinedCar: CarJoined): TableRowData => stringif
 );
 
 const ALL_CATEGORIES_ID = '----';
-const ALL_CATEGORIES_TITLE = 'Visi Produktai';
+const ALL_CATEGORIES_TITLE = 'Visi Automobiliai';
 
 class App {
   private htmlElement: HTMLElement;
@@ -66,6 +66,9 @@ class App {
         modelId: 'Modelis',
       },
       rowsData: this.carsCollection.all.map(carJoinedToTableRowData),
+      onDelete: (brandId) => {
+        console.log(`deleting car: "${brandId}"`);
+      },
   });
 
       const selectField = new SelectField({

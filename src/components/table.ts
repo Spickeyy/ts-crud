@@ -9,6 +9,7 @@ type TableProps<Type extends TableRowData> = {
     title: string,
     columns: Type,
     rowsData: Type[],
+    onDelete: (id: string) => void
 };
 
 class Table <T extends TableRowData> {
@@ -53,13 +54,13 @@ class Table <T extends TableRowData> {
 
     private renderHeadView = () => {
         const columnsNames = Object.values(this.props.columns);
-        const columnsHtmlStr = columnsNames
+        const columnsHtmlStr = `${columnsNames
             .map((name) => `<th>${name}</th>`)
-            .join('');
+            .join('')}<th></th>`;
 
         this.thead.innerHTML = `
         <tr class="text-center h4">
-            <th colspan="${columnsNames.length}">${this.props.title}</th>
+            <th colspan="${columnsNames.length + 1}">${this.props.title}</th>
         </tr>
         <tr>${columnsHtmlStr}</tr>`;
     };
@@ -69,11 +70,22 @@ class Table <T extends TableRowData> {
         const keys = Object.keys(this.props.columns);
 
         this.props.rowsData.forEach((rowData) => {
-            const columnsHtmlStr = keys
-                .map((key) => `<td>${rowData[key]}</td>`)
-                .join('');
+            const tr = document.createElement('tr');
+            tr.innerHTML = keys
+            .map((key) => `<td>${rowData[key]}</td>`)
+            .join('');
 
-            this.tbody.innerHTML += `<tr>${columnsHtmlStr}</tr>`;
+            const delBtn = document.createElement('button');
+            delBtn.innerHTML = '⌫';
+            delBtn.className = 'btn btn-danger btn-sm';
+            delBtn.addEventListener('click', () => {
+                this.props.onDelete(rowData.id);
+            });
+
+            const lastTd = document.createElement('td');
+            lastTd.append(delBtn);
+            tr.append(lastTd);
+            this.tbody.append(tr);
         });
     };
 

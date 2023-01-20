@@ -65,6 +65,11 @@ class CarsCollection {
 
         return joinedCars;
     };
+
+    public deleteCarById = (brandId: string): void => {
+        this.privateBrands = this.privateBrands
+        .filter((brand)) => brand.id !== brandId);
+    };
 }
 
 export default CarsCollection;
