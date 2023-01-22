@@ -51,6 +51,10 @@ class CarsCollection {
           };
     };
 
+    public deleteCarById = (carId: string): void => {
+        this.privateCars = this.privateCars.filter((car) => car.id !== carId);
+    };
+
     public getByBrandId = (brandId: string): CarJoined[] => {
         const brandModelsIds = this.privateModels
         .filter((model) => model.brandId === brandId)
@@ -61,14 +65,17 @@ class CarsCollection {
         .includes(car.modelId))
         .map(this.joinCar);
 
-        console.log(joinedCars);
-
         return joinedCars;
     };
 
-    public deleteCarById = (brandId: string): void => {
-        this.privateBrands = this.privateBrands
-        .filter((brand)) => brand.id !== brandId);
+    public getBrandById = (brandId: string): Brand => {
+        const brand = this.privateBrands.find(({ id }) => id === brandId);
+
+        if (brand === undefined) {
+            throw new Error(`Nerasta markė su id "${brandId}"`);
+        }
+
+        return brand;
     };
 }
 

@@ -5,7 +5,7 @@ export type TableRowData = {
     [key: string]: string,
 };
 
-type TableProps<Type extends TableRowData> = {
+export type TableProps<Type extends TableRowData> = {
     title: string,
     columns: Type,
     rowsData: Type[],

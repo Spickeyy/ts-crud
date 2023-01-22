@@ -3,9 +3,9 @@ export type Option = {
     value: string,
 };
 
-type SelectFieldProps = {
+export type SelectFieldProps = {
     options: Option[],
-    onChange: (event: Event, value: string, option: Option) => void
+    onChange?:((event: Event, value: string, option: Option) => void) | undefined
 };
 
 class SelectField {
