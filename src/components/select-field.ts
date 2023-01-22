@@ -11,30 +11,29 @@ export type SelectFieldProps = {
 class SelectField {
     public htmlElement: HTMLSelectElement;
 
-    private options: SelectFieldProps['options'];
+    private props: SelectFieldProps;
 
-    private onChange: SelectFieldProps['onChange'];
-
-    public constructor({ options, onChange }: SelectFieldProps) {
+    public constructor(props: SelectFieldProps) {
         this.htmlElement = document.createElement('select');
-        this.options = options;
-        this.onChange = onChange;
+        this.props = props;
 
         this.initialize();
     }
 
+    handleOptionChange = (event: Event) => {
+        if (this.props.onChange !== undefined) {
+            const { value } = this.htmlElement;
+            const [option] = this.props.options.filter((opt) => opt.value === value);
+            this.props.onChange(event, value, option);
+        }
+    };
+
     private initialize() {
-        const optionsStr = this.options
+        const optionsStr = this.props.options
         .map(({ value, text }) => `<option value="${value}">${text}</option>`)
         .join('');
 
-        this.htmlElement.addEventListener('change', (event) => {
-            if (this.onChange !== undefined) {
-                const { value } = this.htmlElement;
-                const [option] = this.options.filter((opt) => opt.value === value);
-                this.onChange(event, value, option);
-            }
-        });
+        this.htmlElement.addEventListener('change', this.handleOptionChange);
         this.htmlElement.className = 'form-select';
         this.htmlElement.innerHTML = optionsStr;
     }

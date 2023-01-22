@@ -20,13 +20,13 @@ class Table <T extends TableRowData> {
         return rowsData.every((rowData) => getPropCount(rowData) === getPropCount(columns));
     }
 
-    public htmlElement: HTMLTableElement;
-
-    private props: TableProps<T>;
-
     private tbody: HTMLTableSectionElement;
 
     private thead: HTMLTableSectionElement;
+
+    private props: TableProps<T>;
+
+    public htmlElement: HTMLTableElement;
 
     public constructor(props: TableProps<T>) {
         if (!Table.checkColumnsCompatability(props.columns, props.rowsData)) {
