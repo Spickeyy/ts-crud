@@ -7,6 +7,7 @@ import Table, { type TableRowData, type TableProps } from './table';
 import SelectField, { type Option, type SelectFieldProps } from './select-field';
 import type Brand from '../types/brand';
 import type CarJoined from '../types/car-joined';
+import CarForm from './car-form';
 
 const brandToOption = ({ id, title }: Brand): Option => ({
   value: id,
@@ -69,6 +70,7 @@ class App {
       rowsData: this.carsCollection.all.map(carJoinedToTableRowData),
       onDelete: this.handleCarDelete,
   });
+  // TODO: perkelti formą čia (įrašant į savybę), tam, kad ji būtų pasiekiama darant veiksmus
   }
 
   private handleCarDelete: TableProps<CarRowData>['onDelete'] = (carId) => {
@@ -87,6 +89,9 @@ class App {
     const container = document.createElement('div');
     container.className = 'container my-5 d-flex flex-column gap-3';
 
+    const uxContainer = document.createElement('div');
+    uxContainer.className = 'd-flex justify-content-center gap-3 align-items-start';
+
       const selectField = new SelectField({
       options: [
       { text: ALL_BRANDS_TITLE, value: ALL_BRAND_ID },
@@ -95,10 +100,17 @@ class App {
       onChange: this.handleCarChange,
     });
 
+    const carForm = new CarForm();
+
+    uxContainer.append(
+      this.carsTable.htmlElement,
+      carForm.htmlElement,
+    );
+
     container.append(
       selectField.htmlElement,
-      this.carsTable.htmlElement,
-      );
+      uxContainer,
+    );
     this.htmlElement.append(container);
   };
 
