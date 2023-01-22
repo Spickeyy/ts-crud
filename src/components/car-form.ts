@@ -1,3 +1,5 @@
+import TextField from './text-field';
+
 class CarForm {
     public htmlElement: HTMLFormElement;
 
@@ -7,6 +9,23 @@ class CarForm {
     }
 
     public initialize() {
+        const brandTextField = new TextField({
+            labelText: 'Markė',
+            name: 'title',
+        });
+        const yearTextField = new TextField({
+            labelText: 'Metai',
+            name: 'year',
+        });
+        const priceTextField = new TextField({
+            labelText: 'Kaina',
+            name: 'price',
+        });
+        const modelTextField = new TextField({
+            labelText: 'Modelis',
+            name: 'model',
+        });
+
         this.htmlElement.className = 'd-flex flex-column p-3 border gap-3';
         this.htmlElement.style.width = '450px';
         this.htmlElement.innerHTML = `
