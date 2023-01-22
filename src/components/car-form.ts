@@ -1,4 +1,5 @@
 import TextField from './text-field';
+import FormGroupField from './form-group-field';
 
 class CarForm {
     public htmlElement: HTMLFormElement;
@@ -9,6 +10,9 @@ class CarForm {
     }
 
     public initialize() {
+        const formTitleHtmlElement = document.createElement('h2');
+        formTitleHtmlElement.innerText = 'Automobilio sukūrimas';
+
         const brandTextField = new TextField({
             labelText: 'Markė',
             name: 'title',
@@ -21,23 +25,32 @@ class CarForm {
             labelText: 'Kaina',
             name: 'price',
         });
-        const modelTextField = new TextField({
-            labelText: 'Modelis',
-            name: 'model',
+        const modelsFormGroupField = new FormGroupField({
+            labelText: 'Modeliai',
+            name: 'models',
+            options: [
+                { label: 'Pasirikimas1', value: 'idRaktas1' },
+                { label: 'Pasirikimas2', value: 'idRaktas2' },
+                { label: 'Pasirikimas3', value: 'idRaktas3' },
+                { label: 'Pasirikimas4', value: 'idRaktas4' },
+            ],
         });
+
+        const submitBtn = document.createElement('button');
+        submitBtn.className = 'btn btn-outline-success';
+        submitBtn.innerText = 'Sukurti';
+        submitBtn.setAttribute('type', 'submit');
 
         this.htmlElement.className = 'd-flex flex-column p-3 border gap-3';
         this.htmlElement.style.width = '450px';
-        this.htmlElement.innerHTML = `
-        <h2>Automobilio sukūrimas</h2>
-        <div><label for="TextField_1" class="d-block">Markė</label><input id="TextField_1"
-            class="w-100" name="title"</div>
-        <div><label for="TextField_2" class="d-block">Metai</label><input id="TextField_2"
-            class="w-100" name="year"</div>
-        <div><label for="TextField_3" class="d-block">Kaina</label><input id="TextField_3"
-            class="w-100" name="price"</div>
-        <div><label for="TextField_4" class="d-block">Modelis</label><input id="TextField_4"
-            class="w-100" name="brand"</div><button class="btn btn-outline-success">Sukurti</button>`;
+        this.htmlElement.append(
+            formTitleHtmlElement,
+            brandTextField.htmlElement,
+            yearTextField.htmlElement,
+            priceTextField.htmlElement,
+            modelsFormGroupField.htmlElement,
+            submitBtn,
+        );
     }
 }
 
