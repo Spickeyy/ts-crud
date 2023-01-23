@@ -1,33 +1,66 @@
 import TextField from './text-field';
 import FormGroupField from './form-group-field';
 
+export type FormValues = {
+    brand: string,
+    model: string,
+    price: string,
+    year: string,
+  };
+
+export type CarFormProps = {
+    title: string,
+    values: FormValues,
+    submitBtnText: string,
+    isEdited: boolean,
+    onSubmit: (values: FormValues) => void,
+  };
+
 class CarForm {
+    private props: CarFormProps;
+
+    private brandFormGroupField: FormGroupField;
+
+    private yearTextField: TextField;
+
+    private priceTextField: TextField;
+
+    private modelsFormGroupField: FormGroupField;
+
+    private titleHtmlElement: HTMLHeadingElement;
+
+    private submitBtnHtmlElelemnt: HTMLButtonElement;
+
     public htmlElement: HTMLFormElement;
 
-    public constructor() {
+    public constructor(props: CarFormProps) {
         this.htmlElement = document.createElement('form');
-        this.initialize();
-    }
 
-    public initialize() {
-        const formTitleHtmlElement = document.createElement('h2');
-        formTitleHtmlElement.innerText = 'Automobilio sukūrimas';
+        this.props = props;
 
-        const brandTextField = new TextField({
+        this.brandFormGroupField = new FormGroupField({
             labelText: 'Markė',
-            name: 'title',
+            name: 'brand',
+            options: [
+                { label: 'Subaru', value: 'idRaktas1' },
+                { label: 'BMW', value: 'idRaktas2' },
+                { label: 'Opel', value: 'idRaktas3' },
+                { label: 'Volvo', value: 'idRaktas4' },
+            ],
         });
-        const yearTextField = new TextField({
+        this.yearTextField = new TextField({
             labelText: 'Metai',
             name: 'year',
+            initialValue: String(props.values.year),
         });
-        const priceTextField = new TextField({
+        this.priceTextField = new TextField({
             labelText: 'Kaina',
             name: 'price',
+            initialValue: String(props.values.price),
         });
-        const modelsFormGroupField = new FormGroupField({
-            labelText: 'Modeliai',
-            name: 'models',
+        this.modelsFormGroupField = new FormGroupField({
+            labelText: 'Modelis',
+            name: 'model',
             options: [
                 { label: 'Pasirikimas1', value: 'idRaktas1' },
                 { label: 'Pasirikimas2', value: 'idRaktas2' },
@@ -36,21 +69,83 @@ class CarForm {
             ],
         });
 
-        const submitBtn = document.createElement('button');
-        submitBtn.className = 'btn btn-outline-success';
-        submitBtn.innerText = 'Sukurti';
-        submitBtn.setAttribute('type', 'submit');
+        this.titleHtmlElement = document.createElement('h2');
+        this.submitBtnHtmlElelemnt = document.createElement('button');
+
+        this.initialize();
+        this.renderView();
+    }
+
+    private handleSubmit = (event: Event) => {
+        event.preventDefault();
+
+        const formData = new FormData(this.htmlElement);
+
+        const brand = formData.get('brand') as string | null;
+        const model = formData.get('model') as string | null;
+        const price = formData.get('price') as string | null;
+        const year = formData.get('year') as string | null;
+
+        if (!(brand && price && model && year)) {
+            throw new Error('Bad Form Data');
+          }
+
+        // turetu buti validacija.
+        const formValues: FormValues = {
+            brand,
+            model,
+            price,
+            year,
+        };
+
+        this.props.onSubmit(formValues);
+    };
+
+    private renderView() {
+        const {
+    values: {
+            brand,
+            year,
+            price,
+            model,
+        },
+        } = this.props;
+
+        this.titleHtmlElement.innerHTML = this.props.title;
+        this.submitBtnHtmlElelemnt.innerText = this.props.submitBtnText;
+
+        this.brandFormGroupField.updateProps({ initialValue: brand });
+        this.modelsFormGroupField.updateProps({ initialValue: model });
+
+        this.priceTextField.updateProps({ initialValue: String(price) });
+        this.yearTextField.updateProps({ initialValue: String(year) });
+    }
+
+    public initialize() {
+        this.submitBtnHtmlElelemnt.className = 'btn btn-outline-success';
+        this.submitBtnHtmlElelemnt.setAttribute('type', 'submit');
 
         this.htmlElement.className = 'd-flex flex-column p-3 border gap-3';
         this.htmlElement.style.width = '450px';
         this.htmlElement.append(
-            formTitleHtmlElement,
-            brandTextField.htmlElement,
-            yearTextField.htmlElement,
-            priceTextField.htmlElement,
-            modelsFormGroupField.htmlElement,
-            submitBtn,
+            this.titleHtmlElement,
+            this.brandFormGroupField.htmlElement,
+            this.yearTextField.htmlElement,
+            this.priceTextField.htmlElement,
+            this.modelsFormGroupField.htmlElement,
+            this.submitBtnHtmlElelemnt,
         );
+
+        this.htmlElement.addEventListener('submit', this.handleSubmit);
+    }
+
+    public updateProps(newProps: Partial<CarFormProps>) {
+        this.props = {
+            ...this.props,
+            ...newProps,
+        };
+
+        this.renderView();
     }
 }
 

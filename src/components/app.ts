@@ -100,7 +100,17 @@ class App {
       onChange: this.handleCarChange,
     });
 
-    const carForm = new CarForm();
+    const carForm = new CarForm({
+      title: 'Sukurti automobilį',
+      submitBtnText: 'Sukurti',
+      values: {
+        brand: '',
+        model: [],
+        price: 0,
+        year: 0,
+      },
+      onSubmit: (formValues) => console.log(formValues),
+    });
 
     uxContainer.append(
       this.carsTable.htmlElement,
